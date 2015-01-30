@@ -1,0 +1,27 @@
+- name: add gpg key
+  apt_key: url=http://packages.elasticsearch.org/GPG-KEY-elasticsearch state=present
+  sudo: yes
+
+- name: add repository
+  apt_repository: repo='deb http://packages.elasticsearch.org/elasticsearch/1.1/debian stable main' state=present
+  sudo: yes
+
+- name: install
+  apt: pkg=elasticsearch update_cache=yes
+  sudo: yes
+
+- lineinfile:
+  args:
+    dest: /etc/elasticsearch/elasticsearch.yml
+    line: "http.cors.allow-origin: \"*\""
+  sudo: yes
+
+- lineinfile:
+  args:
+    dest: /etc/elasticsearch/elasticsearch.yml
+    line: "http.cors.enabled: true"
+  sudo: yes
+
+- name: restart elasticsearch
+  service: name=elasticsearch state=restarted enabled=yes
+  sudo: yes

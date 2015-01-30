@@ -1,0 +1,36 @@
+- name: install packages
+  apt: pkg={{ item }} update_cache=yes
+  with_items:
+    - php5
+    - php5-curl
+    - php5-mysql
+    - php5-sqlite
+    - php5-intl
+    - php5-gd
+    - php5-mcrypt
+  sudo: yes
+
+- name : "configure php apache"
+  lineinfile: dest="/etc/php5/apache2/php.ini" regexp=";?\s*{{ item.key }} =" line="{{ item.key }} = {{ item.value }} ; managed by ansible" state=present
+  with_items:
+    - { key: "date.timezone", value: "Europe/Madrid" }
+    - { key: "memory_limit", value: "-1" }
+  sudo: yes
+
+- name: Download composer
+  shell: curl -sS https://getcomposer.org/installer | php chdir="/tmp" creates="/usr/local/bin/composer"
+
+- name: Install composer in global
+  shell: mv composer.phar /usr/local/bin/composer chdir="/tmp" creates="/usr/local/bin/composer"
+  sudo: yes
+
+- name: composer install
+  shell: composer install chdir="{{ project_root_path }}" creates="{{ project_root_path }}/vendor"
+
+- name: create database with mysql user without password
+  shell: "mysql -u '{{ mysql_user }}' < {{ project_root_path }}/src/SandboxBundle/Resources/schema.sql"
+  when: not mysql_password
+
+- name: create database with mysql user + password
+  shell: "mysql -u '{{ mysql_user }}' -p '{{ mysql_password }}' < {{ project_root_path }}/src/SandboxBundle/Resources/schema.sql"
+  when: mysql_password

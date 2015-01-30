@@ -1,0 +1,10 @@
+{
+    "statsd_template_config_file": "statsd_librato.conf.j2",
+    "statsd_port": 8125,
+    "statsd_flush_interval_ms": "60000",
+    "statsd_config_path": "/home/vagrant/",
+    "statsd_log_directory": "/var/log/statsd/",
+    "librato_email": "xxxxxxxxx",
+    "librato_token": "xxxxxxxxx",
+    "librato_source": "statsd_librato_two"
+}

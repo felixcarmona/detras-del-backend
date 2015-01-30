@@ -1,0 +1,3 @@
+- name: restart visage
+  sudo: true
+  service: name=visage state=restarted

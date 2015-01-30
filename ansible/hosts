@@ -1,0 +1,14 @@
+[statsd_librato_one]
+192.168.50.201 ansible_ssh_user=vagrant
+
+[statsd_librato_two]
+192.168.50.202 ansible_ssh_user=vagrant
+
+[sandbox]
+192.168.50.203 ansible_ssh_user=vagrant
+
+[collectd_statsd]
+192.168.50.204 ansible_ssh_user=vagrant
+
+[logs]
+192.168.50.205 ansible_ssh_user=vagrant

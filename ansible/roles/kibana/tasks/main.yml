@@ -1,0 +1,16 @@
+- name: Create directory
+  file: path="{{ path }}" state=directory
+  sudo: yes
+
+- name: Download kibana
+  shell: wget https://download.elasticsearch.org/kibana/kibana/kibana-3.0.1.tar.gz chdir="/tmp" creates="/tmp/kibana-3.0.1.tar.gz"
+
+- name: uncompress kibana
+  shell: tar xvf /tmp/kibana-3.0.1.tar.gz chdir="{{ path }}" creates="{{ path }}/kibana-3.0.1/config.js"
+  sudo: yes
+
+- name: move files
+  shell: "cp -R {{ path }}/kibana-3.0.1/* {{ path }} && rm -rf {{ path }}/kibana-3.0.1"
+  args:
+      creates: "{{ path }}/config.js"
+  sudo: yes

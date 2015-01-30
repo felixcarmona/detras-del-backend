@@ -1,0 +1,15 @@
+- hosts:
+  - logs
+
+  roles:
+    - role: java
+    - role: elasticsearch
+    - role: kibana
+      path: /var/www/kibana
+    - role: apache
+      site_slug: kibana
+      vhost_server_name: kibana
+      vhost_port: 80
+      vhost_log_directory: /var/log/apache2
+      vhost_document_root: /var/www/kibana
+    - role: logstash

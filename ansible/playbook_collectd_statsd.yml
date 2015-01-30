@@ -1,0 +1,5 @@
+- hosts:
+  - collectd_statsd
+
+  roles:
+    - role: collectd_statsd

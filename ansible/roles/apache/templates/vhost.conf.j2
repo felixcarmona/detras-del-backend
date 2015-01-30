@@ -1,0 +1,16 @@
+<VirtualHost *:{{ vhost_port }}>
+        ServerAdmin webmaster@localhost
+        DocumentRoot {{ vhost_document_root }}
+
+        ServerName {{ vhost_server_name }}
+
+        <Directory {{ vhost_document_root }}>
+            Order allow,deny
+            Allow from all
+            Require all granted
+            AllowOverride All
+        </Directory>
+
+        ErrorLog {{ vhost_log_directory }}/error.log
+        CustomLog {{ vhost_log_directory }}/access.log combined
+</VirtualHost>

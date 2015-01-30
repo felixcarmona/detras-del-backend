@@ -1,0 +1,19 @@
+- hosts:
+  - sandbox
+
+  roles:
+    - role: apache
+      site_slug: sandbox
+      vhost_server_name: sandbox
+      vhost_port: 80
+      vhost_log_directory: /var/log/apache2
+      vhost_document_root: /vagrant/web
+    - role: mysql
+    - role: symfony
+      project_root_path: /vagrant
+      mysql_dbname: sandbox
+      mysql_user: root
+      mysql_password: ~
+    - role: xdebug
+      idekey: sandbox
+      remote_host: 192.168.50.1

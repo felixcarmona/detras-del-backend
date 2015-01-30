@@ -1,0 +1,16 @@
+- name: install packages
+  apt: pkg=php5-xdebug update_cache=yes
+  sudo: yes
+
+- name: Configure xdebug
+  template: src=xdebug.ini.j2 dest=/etc/php5/cli/conf.d/20-xdebug.ini
+  sudo: yes
+
+- name: Configure xdebug
+  template: src=xdebug.ini.j2 dest=/etc/php5/apache2/conf.d/20-xdebug.ini mode=777
+  sudo: yes
+
+- name: Restart apache
+  service:
+    name: apache2
+    state: restarted

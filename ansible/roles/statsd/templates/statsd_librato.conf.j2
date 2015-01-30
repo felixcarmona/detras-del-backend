@@ -1,0 +1,10 @@
+{
+  port: {{ statsd_port }},
+  flushInterval: {{ statsd_flush_interval_ms }},
+  backends: ["statsd-librato-backend"],
+  librato: {
+    email:  "{{ librato_email }}",
+    token:  "{{ librato_token }}",
+    source: "{{ librato_source }}"
+  }
+}

@@ -1,0 +1,44 @@
+- name: install required packages via apt
+  apt: pkg={{ item }} update_cache=yes
+  with_items:
+    - collectd-core
+    - collectd
+    - build-essential
+    - librrd-ruby
+    - ruby
+    - ruby-dev
+  sudo: yes
+
+- name: install visage
+  gem: name={{ item }} user_install=no state=latest
+  with_items:
+    - visage-app
+  sudo: yes
+
+- name: create collectd config
+  template: src=collectd.conf dest=/etc/collectd/collectd.conf
+  sudo: yes
+
+- name: create conf.d directory
+  file: path=/etc/collectd/conf.d state=directory
+  sudo: yes
+
+- name: add rrd plugin configuration
+  template: src=rrd.conf dest=/etc/collectd/conf.d/rrd.conf
+  sudo: yes
+
+- name: add statsd plugin configuration
+  template: src=statsd.conf dest=/etc/collectd/conf.d/statsd.conf
+  sudo: yes
+
+- name: restart collectd
+  command: service collectd restart
+  sudo: yes
+
+- name: generate upstart script
+  sudo: true
+  template: >
+    src=upstart.conf.j2
+    dest=/etc/init/visage.conf
+  notify: restart visage
+  sudo: yes

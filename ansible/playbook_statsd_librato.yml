@@ -1,0 +1,6 @@
+- hosts:
+  - statsd_librato_one
+  - statsd_librato_two
+
+  roles:
+    - role: statsd

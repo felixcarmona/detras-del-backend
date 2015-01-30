@@ -1,0 +1,26 @@
+# This file is auto-generated during the composer install
+parameters:
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    locale: en
+    secret: 37cc937a53c223f82aa25351db4182cb5f152497
+    database_driver: pdo_mysql
+
+    mysql_host: 127.0.0.1
+    mysql_port: 3306
+    mysql_dbname: sandbox
+    mysql_user: root
+    mysql_password: ~
+
+    database_host: 127.0.0.1
+    database_port: 3306
+    database_name: sandbox
+    database_user: root
+    database_password: ~
+
+    statsd_driver.host: 192.168.50.204
+    statsd_driver.port: 8125
+    statsd_driver.sampling: 100
+    statsd_driver.prefix: ''

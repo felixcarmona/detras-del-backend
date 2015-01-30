@@ -1,0 +1,40 @@
+- name: Install Apache
+  apt: pkg=apache2
+  notify: Restart apache
+  sudo: yes
+
+- name: Disable default site
+  file: path="/etc/apache2/sites-enabled/000-default.conf" state=absent
+  notify: Restart apache
+  sudo: yes
+
+- name: Create document root directory
+  file: path="{{ vhost_document_root }}" state=directory
+  sudo: yes
+
+- name: Create the log directory
+  file: path="{{ vhost_log_directory }}" state=directory
+  sudo: yes
+
+- name: Create vhost
+  template:
+    src: vhost.conf.j2
+    dest: "/etc/apache2/sites-available/{{ site_slug }}.conf"
+  notify: Restart apache
+  sudo: yes
+
+- name: Enable vhost
+  file:
+    src: "/etc/apache2/sites-available/{{ site_slug }}.conf"
+    dest: "/etc/apache2/sites-enabled/{{ site_slug }}.conf"
+    state: link
+  notify: Restart apache
+  sudo: yes
+
+- name: Enable mod-rewrite
+  file:
+    src: "/etc/apache2/mods-available/rewrite.load"
+    dest: "/etc/apache2/mods-enabled/rewrite.load"
+    state: link
+  notify: Restart apache
+  sudo: yes

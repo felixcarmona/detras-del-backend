@@ -1,0 +1,4 @@
+.vagrant/
+sandbox/vendor
+sandbox/app/cache
+sandbox/app/logs

@@ -1,0 +1,21 @@
+services:
+    statsd_driver:
+        class: Metrics\StatsdDriver
+        arguments:
+            - %statsd_driver.host%
+            - %statsd_driver.port%
+            - %statsd_driver.sampling%
+            - %statsd_driver.prefix%
+
+    metrics_collector:
+        class: Metrics\Collector
+        arguments:
+            - @metrics_provider
+            - @statsd_driver
+        tags:
+             - { name: kernel.event_listener, event: kernel.terminate, method: send, priority: -255 }
+
+    metrics_provider:
+        class: MetricsBundle\Service\TaggedMetricsProvider
+        arguments:
+            - @service_container

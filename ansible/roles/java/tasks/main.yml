@@ -1,0 +1,3 @@
+- name: install java
+  apt: pkg=default-jre update_cache=yes
+  sudo: yes

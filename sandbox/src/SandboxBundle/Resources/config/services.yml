@@ -1,0 +1,14 @@
+services:
+    user_repository:
+        class: SandboxBundle\Service\PdoUserRepository
+        arguments:
+            - @pdo_user_repository_driver
+        tags:
+            - { name: metrics_provider }
+
+    pdo_user_repository_driver:
+        class: Doctrine\DBAL\Driver\PDOConnection
+        arguments:
+            - mysql:host=%mysql_host%;port=%mysql_port%;dbname=%mysql_dbname%
+            - %mysql_user%
+            - %mysql_password%

@@ -1,0 +1,41 @@
+- name: install node packages
+  apt: pkg={{ item }}
+  with_items:
+    - nodejs
+    - npm
+  sudo: yes
+
+- name: Create symlink node -> nodejs
+  file: src=/usr/bin/nodejs dest=/usr/bin/node state=link
+  sudo: yes
+
+- name: install fullstack statsd
+  npm: name={{ item }} global=yes
+  with_items:
+    - statsd
+    - statsd-librato-backend
+  sudo: yes
+
+- name: Create statsd config file
+  template:
+    src: "{{ statsd_template_config_file }}"
+    dest: "{{ statsd_config_path }}statsd.conf"
+  sudo: yes
+
+- name: Create the statsd logs path
+  file: path="{{ statsd_log_directory }}" state=directory
+  sudo: yes
+
+- name: Create the statsd logs file
+  file: path="{{ statsd_log_directory }}/statsd.log" state=touch
+  sudo: yes
+
+- name: Create statsd service
+  template:
+    src: service.conf.j2
+    dest: /etc/init/statsd.conf
+  sudo: yes
+
+- name: Restart statsd service
+  service: name=statsd state=restarted
+  sudo: yes
