@@ -4,9 +4,8 @@ namespace SandboxBundle\Service;
 
 use SandboxBundle\Domain\User;
 
-abstract class UserRepository
+interface UserRepository
 {
-    abstract public function add(User $user);
-
-    abstract public function findByUserId($userId);
+    public function add(User $user);
+    public function findByUserId($userId);
 }
